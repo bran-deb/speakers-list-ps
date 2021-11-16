@@ -1,6 +1,6 @@
+import SpeakerFavorite from "./SpeakerFavorite"
 
-
-const SpeakerDemographics = ({ first, last, company, bio, twitterHandle, favorite }) => {
+const SpeakerDemographics = ({ first, last, company, bio, twitterHandle, favorite, onFavoriteToggle }) => {
     return (
         <div className="speaker-info">
             <div className="d-flex justify-content-between mb-3">
@@ -8,6 +8,10 @@ const SpeakerDemographics = ({ first, last, company, bio, twitterHandle, favorit
                     {first} {last}
                 </h3>
             </div>
+            <SpeakerFavorite
+                favorite={favorite}
+                onFavoriteToggle={onFavoriteToggle}
+            />
             <p className="card-description">
                 {bio}
             </p>
