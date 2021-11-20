@@ -1,6 +1,7 @@
 import Speaker from "./Speaker"
 import { data } from "../../SpeakerData"
 import { useState, useEffect } from "react"
+import ReactPlaceholder from "react-placeholder/lib"
 
 const SpeakersList = ({ showSessions }) => {
     const [speakersData, setSpeakersData] = useState(data)
@@ -18,7 +19,7 @@ const SpeakersList = ({ showSessions }) => {
         async function delayfunc() {
             try {
                 await delay(2000)
-                throw "Had Error."
+                // throw "Had Error."
                 setIsLoading(false)
                 setSpeakersData(data)
 
@@ -56,27 +57,29 @@ const SpeakersList = ({ showSessions }) => {
         )
     }
 
-    //verificamos si esta cargando
-    if (isLoading === true) {
-        return <div>Loading...</div>
-    }
-
     return (
         <div className="container speakers-list">
-            <div className="row">
-                {speakersData.map(speaker => {
-                    return (
-                        <Speaker
-                            key={speaker.id}
-                            speaker={speaker}
-                            showSessions={showSessions}
-                            onFavoriteToggle={() => {
-                                onFavoriteToggle(speaker.id)
-                            }}
-                        />
-                    )
-                })}
-            </div>
+            <ReactPlaceholder
+                type="media"
+                rows={15}
+                className="speakerslist-placeholder"
+                ready={isLoading === false}
+            >
+                <div className="row">
+                    {speakersData.map(speaker => {
+                        return (
+                            <Speaker
+                                key={speaker.id}
+                                speaker={speaker}
+                                showSessions={showSessions}
+                                onFavoriteToggle={() => {
+                                    onFavoriteToggle(speaker.id)
+                                }}
+                            />
+                        )
+                    })}
+                </div>
+            </ReactPlaceholder>
         </div>
     )
 }
