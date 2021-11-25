@@ -8,6 +8,7 @@ export const REQUEST_STATUS = {
 }
 
 function useRequestDelay(delayTime = 1000, initialData = []) {
+
     const [data, setData] = useState(initialData)
     const [requestStatus, setRequestStatus] = useState(REQUEST_STATUS.LOADING)
     const [error, setError] = useState("")
@@ -35,13 +36,16 @@ function useRequestDelay(delayTime = 1000, initialData = []) {
         delayfunc()
     }, [])
 
-    function updateRecord(recordUpdated) {
+    function updateRecord(recordUpdated, doneCallback) {
         const newRecords = data.map((rec) => {
             return rec.id === recordUpdated.id ? recordUpdated : rec
         })
         async function delayFunction() {
             try {
                 await delay(delayTime)
+                if (doneCallback) {
+                    doneCallback()
+                }
                 setData(newRecords)
 
             } catch (e) {
