@@ -1,6 +1,11 @@
+import { ThemeContext } from "../context/ThemeContext"
+import { useContext } from "react"
 
+const SpeakersToolbar = ({ showSessions, setShowSessions }) => {
 
-const SpeakersToolbar = ({ theme, setTheme, showSessions, setShowSessions }) => {
+    //usamos react context para no pasar theme en props
+    const { theme, setTheme } = useContext(ThemeContext)
+
 
     const change = () => {
         setShowSessions(!showSessions)

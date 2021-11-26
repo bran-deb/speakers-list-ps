@@ -1,6 +1,11 @@
+import { ThemeContext } from "../context/ThemeContext"
+import { useContext } from "react"
 
+const Header = () => {
 
-const Header = ({ theme }) => {
+    //en este caso solo necesitamos theme para ver el estado
+    const { theme } = useContext(ThemeContext)
+
     return (
         <div className="padT4 padB4">
             <div className="container mobile-container">
@@ -13,7 +18,9 @@ const Header = ({ theme }) => {
                             Silicon Valley Code Camp
                         </h4>
                     </div>
-                    <div className={theme === 'light' ? '' : 'text-info'}> {/*cambia color de letra */}
+                    <div className={
+                        theme === 'light' ? '' : 'text-info' //cambia color de letra
+                    }>
                         Hello Mr. Smith &nbsp;&nbsp;
                         <span>
                             <a href="#">sign-out</a>
