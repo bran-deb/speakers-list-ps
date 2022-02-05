@@ -4,6 +4,7 @@ import SpeakerDemographics from "./SpeakerDemographics"
 import SpeakerImg from "./SpeakerImg"
 import Sessions from "./Sessions"
 import { SpeakerProvider } from "../context/SpeakerContext"
+import SpeakerDelete from "./SpeakerDelete"
 
 
 const Speaker = ({ speaker, updateRecord, insertRecord, deleteRecord }) => {
@@ -26,10 +27,9 @@ const Speaker = ({ speaker, updateRecord, insertRecord, deleteRecord }) => {
                     <SpeakerDemographics />
                 </div>
                 {
-                    showSessions === true
-                        ? <Sessions />
-                        : null
+                    showSessions === true ? <Sessions /> : null
                 }
+                <SpeakerDelete />
             </div>
         </SpeakerProvider>
     )
