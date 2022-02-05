@@ -1,3 +1,5 @@
+import { useContext } from "react"
+import { SpeakerFilterContext } from "../context/SpeakerFilterContext"
 import Speaker from "./Speaker"
 import ReactPlaceholder from "react-placeholder/lib"
 import useRequestDelay, { REQUEST_STATUS } from "../hooks/useRequestDelay"
@@ -13,7 +15,7 @@ const SpeakersList = () => {
         updateRecord,
     } = useRequestDelay(2000, data)
 
-
+    const { searchQuery, eventYear } = useContext(SpeakerFilterContext)
 
     //verificamos si fue erroneo
     if (requestStatus === REQUEST_STATUS.FAILLURE) {
@@ -34,20 +36,32 @@ const SpeakersList = () => {
                 ready={requestStatus === REQUEST_STATUS.SUCCESS}
             >
                 <div className="row">
-                    {speakersData.map(speaker => {
-                        return (
-                            <Speaker
-                                key={speaker.id}
-                                speaker={speaker}
-                                onFavoriteToggle={(doneCallback) => {
-                                    updateRecord({
-                                        ...speaker,
-                                        favorite: !speaker.favorite,
-                                    }, doneCallback)
-                                }}
-                            />
-                        )
-                    })}
+                    {speakersData
+                        .filter(speaker => {
+                            return (
+                                speaker.first.toLowerCase().includes(searchQuery) ||
+                                speaker.last.toLowerCase().includes(searchQuery)
+                            )
+                        })
+                        .filter(speaker => {
+                            return speaker.sessions.find((session) => {
+                                return session.eventYear === eventYear
+                            })
+                        })
+                        .map(speaker => {
+                            return (
+                                <Speaker
+                                    key={speaker.id}
+                                    speaker={speaker}
+                                    onFavoriteToggle={(doneCallback) => {
+                                        updateRecord({
+                                            ...speaker,
+                                            favorite: !speaker.favorite,
+                                        }, doneCallback)
+                                    }}
+                                />
+                            )
+                        })}
                 </div>
             </ReactPlaceholder>
         </div>
