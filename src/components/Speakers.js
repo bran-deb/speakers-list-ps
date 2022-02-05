@@ -2,22 +2,16 @@ import { useState } from "react"
 
 import SpeakersToolbar from "./SpeakersToolbar"
 import SpeakersList from "./SpeakersList"
+import { SpeakerFilterProvider } from "../context/SpeakerFilterContext"
 
 
 const Speakers = () => {
 
-    const [showSessions, setShowSessions] = useState(true)
-
     return (
-        <>
-            <SpeakersToolbar
-                showSessions={showSessions}
-                setShowSessions={setShowSessions}
-            />
-            <SpeakersList
-                showSessions={showSessions}
-            />
-        </>
+        <SpeakerFilterProvider startingShowSessions={false}>
+            <SpeakersToolbar />
+            <SpeakersList />
+        </SpeakerFilterProvider>
     )
 }
 
