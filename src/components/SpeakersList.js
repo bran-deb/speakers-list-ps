@@ -31,7 +31,7 @@ const SpeakersList = () => {
     }
 
     return (
-        <div className="container speakers-list">
+        <div className="container speakers-list ">
             <ReactPlaceholder
                 type="media"
                 rows={15}
