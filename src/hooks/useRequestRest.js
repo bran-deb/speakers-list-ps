@@ -12,7 +12,7 @@ const restUrl = 'api/speakers'
 
 function useRequestRest() {
 
-    const [data, setData] = useState(initialData)
+    const [data, setData] = useState([])
     const [requestStatus, setRequestStatus] = useState(REQUEST_STATUS.LOADING)
     const [error, setError] = useState("")
 
@@ -32,7 +32,7 @@ function useRequestRest() {
 
             } catch (e) {
                 setRequestStatus(REQUEST_STATUS.FAILLURE)
-                setHasErrored(true)
+                // setHasErrored(true)
                 setError(e)
             }
         }
@@ -56,7 +56,7 @@ function useRequestRest() {
                 }
 
             } catch (e) {
-                console.log("error throw inside delayFunction", error)
+                console.log("error throw inside delayFunction", e)
                 if (doneCallback) {
                     doneCallback()
                 }
@@ -82,7 +82,7 @@ function useRequestRest() {
                 }
 
             } catch (e) {
-                console.log("error throw inside delayFunction", error)
+                console.log("error throw inside delayFunction", e)
                 if (doneCallback) {
                     doneCallback()
                 }
@@ -109,7 +109,7 @@ function useRequestRest() {
                 }
 
             } catch (e) {
-                console.log("error throw inside delayFunction", error)
+                console.log("error throw inside delayFunction", e)
                 if (doneCallback) {
                     doneCallback()
                 }

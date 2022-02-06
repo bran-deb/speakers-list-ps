@@ -12,7 +12,7 @@ const writeFile = promisify(fs.writeFile)
 const delay = (ms) => new Promise((resolve) => { setTimeout(resolve, ms) })
 
 
-const handler = (req, res) => {
+const handler = async (req, res) => {
     // res.status(200).send(JSON.stringify(data, null, 2))
     const method = req?.method          //sacamos el metodo de la consulta
     const id = parseInt(req?.query.id)  //sacamos el id de la consulta
@@ -34,7 +34,8 @@ const handler = (req, res) => {
             console.log(`Method ${method} not implemented`)
     }
 
-    const putMethod = async () => {
+    // const putMethod = async () => {
+    async function putMethod() {
         try {
             const readFileData = await readFile(jsonFile)
             await delay(1000)
@@ -43,15 +44,15 @@ const handler = (req, res) => {
             if (!speakers) {
                 res.status(404).send('Error: Request failed with status code 404')
             } else {
-                const newSpeakerArray = speakers.map((rec) => {
-                    return rec.id == id ? recordFromBody : rec
+                const newSpeakerArray = speakers.map(function (rec) {
+                    return rec.id == id ? recordFromBody : rec;
                 })
                 writeFile(
                     jsonFile,
                     JSON.stringify({ speakers: newSpeakerArray }, null, 2)
                 )
                 res.setHeader("Content-type", "application/json")
-                res.status(200).send(JSON.stringify(speakers, null, 2))
+                res.status(200).send(JSON.stringify(recordFromBody, null, 2))
                 console.log(`PUT /api/speakers/${id} status: 200`)
             }
         } catch (e) {
@@ -62,8 +63,8 @@ const handler = (req, res) => {
         }
     }
 
-
-    const postMethod = async () => {
+    // const postMethod = async () => {
+    async function postMethod() {
         try {
             const readFileData = await readFile(jsonFile)
             await delay(1000)
@@ -87,18 +88,18 @@ const handler = (req, res) => {
                 )
                 res.setHeader("Content-type", "application/json")
                 res.status(200).send(JSON.stringify(newSpeakerRec, null, 2))
-                console.log(`PUT /api/speakers/${id} status: 200`)
+                console.log(`POST /api/speakers/${id} status: 200`)
             }
         } catch (e) {
             res
                 .status(500)
-                .send(`PUT /api/speakers/${id} status: 500 unexpected error`)
-            console.log(`PUT /api/speakers/${id} status: 200`, e);
+                .send(`POST /api/speakers/${id} status: 500 unexpected error`)
+            console.log(`POST /api/speakers/${id} status: 200`, e);
         }
     }
 
-
-    const deleteMethod = async () => {
+    // const deleteMethod = async () => {
+    async function deleteMethod() {
         try {
             const readFileData = await readFile(jsonFile)
             await delay(1000)
