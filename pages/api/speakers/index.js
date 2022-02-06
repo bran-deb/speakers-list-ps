@@ -1,16 +1,15 @@
 // import { data } from "../../../SpeakerData"
-import path, { resolve } from "path"
+import path from "path"
 import fs from 'fs'
-import { delBasePath } from "next/dist/shared/lib/router/router"
 
 const { promisify } = require("util")
 const readFile = promisify(fs.readFile)
 const delay = (ms) => new Promise((resolve) => { setTimeout(resolve, ms) })
 
 
-const handler = (req, res) => {
+const handler = async (req, res) => {
     // res.status(200).send(JSON.stringify(data, null, 2))
-    const jsonFile = path.resolve("./", db.json)
+    const jsonFile = path.resolve("./", "db.json")
     try {
         const readFileData = await readFile(jsonFile)
         await delay(1000)
