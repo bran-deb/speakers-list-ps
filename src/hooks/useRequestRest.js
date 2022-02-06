@@ -1,5 +1,6 @@
-
 import { useState, useEffect } from 'react'
+import axios from 'axios'
+
 
 export const REQUEST_STATUS = {
     LOADING: "loading",
@@ -7,9 +8,11 @@ export const REQUEST_STATUS = {
     FAILLURE: "failure",
 }
 
-function useRequestDelay(delayTime = 1000, initialData = []) {
+const restUrl = 'api/speakers'
 
-    const [data, setData] = useState(initialData)
+function useRequestRest() {
+
+    const [data, setData] = useState([])
     const [requestStatus, setRequestStatus] = useState(REQUEST_STATUS.LOADING)
     const [error, setError] = useState("")
 
@@ -22,20 +25,19 @@ function useRequestDelay(delayTime = 1000, initialData = []) {
     useEffect(() => {
         async function delayfunc() {
             try {
-                await delay(delayTime)
-                // throw "Had Error."
+                //obtiene los datos del RestUrl
+                const result = await axios.get(restUrl)
                 setRequestStatus(REQUEST_STATUS.SUCCESS)
-                setData(data)
+                setData(result.data)
 
             } catch (e) {
                 setRequestStatus(REQUEST_STATUS.FAILLURE)
-                setHasErrored(true)
+                // setHasErrored(true)
                 setError(e)
             }
         }
         delayfunc()
     }, [])
-
 
     function updateRecord(record, doneCallback) {
 
@@ -46,13 +48,15 @@ function useRequestDelay(delayTime = 1000, initialData = []) {
         async function delayFunction() {
             try {
                 setData(newRecords)
-                await delay(delayTime)
+                // await delay(delayTime)
+                //agregamos al "urlRest/id" el registro(record) a actualizar
+                await axios.put(`${restUrl}/${record.id}`, record)
                 if (doneCallback) {
                     doneCallback()
                 }
 
             } catch (e) {
-                console.log("error throw inside delayFunction", error)
+                console.log("error throw inside delayFunction", e)
                 if (doneCallback) {
                     doneCallback()
                 }
@@ -69,13 +73,16 @@ function useRequestDelay(delayTime = 1000, initialData = []) {
         async function delayFunction() {
             try {
                 setData(newRecords)
-                await delay(delayTime)
+                // await delay(delayTime)
+                //agregamos 99999 como marcador de posicion
+                //el server genera el speakerId, no tenemos id para pasarlo
+                await axios.post(`${restUrl}/99999`, record)
                 if (doneCallback) {
                     doneCallback()
                 }
 
             } catch (e) {
-                console.log("error throw inside delayFunction", error)
+                console.log("error throw inside delayFunction", e)
                 if (doneCallback) {
                     doneCallback()
                 }
@@ -94,13 +101,15 @@ function useRequestDelay(delayTime = 1000, initialData = []) {
         async function delayFunction() {
             try {
                 setData(newRecords)
-                await delay(delayTime)
+                // await delay(delayTime)
+                //eliminamos del "urlRest/id" el (record)
+                await axios.delete(`${restUrl}/${record.id}`, record)
                 if (doneCallback) {
                     doneCallback()
                 }
 
             } catch (e) {
-                console.log("error throw inside delayFunction", error)
+                console.log("error throw inside delayFunction", e)
                 if (doneCallback) {
                     doneCallback()
                 }
@@ -115,9 +124,8 @@ function useRequestDelay(delayTime = 1000, initialData = []) {
         requestStatus,
         error,
         updateRecord,
-
         insertRecord,
         deleteRecord,
     }
 }
-export default useRequestDelay
+export default useRequestRest
